@@ -1,0 +1,93 @@
+dubbo:
+  application:
+    name: provide-service
+    metadata-type: local
+
+  # ?? Zookeeper ????
+  registry:
+    address: zookeeper://localhost:2181  # ??? zookeeper://
+    timeout: 30000
+    check: false
+
+  protocol:
+    name: tri
+    port: 20880
+
+  scan:
+    base-packages: org.huangge.provider.service
+server:
+  port: 20001
+
+# application.yml
+spring:
+  datasource:
+    url: jdbc:mysql://rm-bp1k1lz08dl4ejus8ao.mysql.rds.aliyuncs.com/card?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: LkyTest
+    password: LKY_Admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  main:
+    allow-bean-definition-overriding: true
+
+shardingsphere:
+  enabled: true
+  datasource:
+    names: ds
+    ds:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://rm-bp1k1lz08dl4ejus8ao.mysql.rds.aliyuncs.com/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: LkyTest
+      password: LKY_Admin
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      minimum-idle: 5
+
+  rules:
+    sharding:
+      tables:
+        order:
+          actual-data-nodes: ds.order_$->{202501..202512}
+          table-strategy:
+            standard:
+              sharding-column: create_time
+              sharding-algorithm-name: order-month-algorithm
+          # 主键生成策略
+          key-generate-strategy:
+            column: id
+            key-generator-name: snowflake
+
+
+      sharding-algorithms:
+        order-month-algorithm:
+          type: INTERVAL
+          props:
+            datetime-pattern: 'yyyy-MM-dd HH:mm:ss'
+            datetime-lower: '2024-01-01 00:00:00'
+            datetime-upper: '2024-12-31 23:59:59'
+            sharding-suffix-pattern: 'yyyyMM'
+            datetime-interval-amount: 1
+            datetime-interval-unit: 'MONTHS'
+
+            # 主键生成器
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE
+            props:
+              worker-id: 123
+
+
+  props:
+    sql-show: true
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl  # 日志
+
+# 日志配置
+logging:
+  level:
+    org.apache.shardingsphere: debug
+    com.example.mapper: debug

@@ -1,0 +1,31 @@
+dubbo:
+  application:
+    name: consumer-service
+    metadata-type: local
+
+  # ?? Zookeeper ????
+  registry:
+    address: zookeeper://localhost:2181  # ??? zookeeper://
+    timeout: 30000
+    check: false
+
+  protocol:
+    name: tri
+    port: 20881
+
+  scan:
+    base-packages: org.huangge.consumer.service
+server:
+  port: 20001
+
+# application.yml
+spring:
+  datasource:
+    url: jdbc:mysql://rm-bp1k1lz08dl4ejus8ao.mysql.rds.aliyuncs.com/card?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: LkyTest
+    password: LKY_Admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl  # 日志
