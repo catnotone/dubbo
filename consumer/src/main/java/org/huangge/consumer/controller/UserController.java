@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/consumer")
 public class UserController {
 
-    @DubboReference(version = "1.0")
+    @DubboReference(version = "2.0")
     private UserService userService;
 
     @GetMapping(value = "/getUserName")
