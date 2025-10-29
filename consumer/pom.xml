@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.6</version>
-<!--        <relativePath>../pom.xml</relativePath>-->
+        <relativePath/>
     </parent>
     <groupId>org.huangge</groupId>
     <artifactId>consumer</artifactId>
@@ -50,6 +50,7 @@
             <groupId>org.huangge</groupId>
             <artifactId>common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>true</scope>
         </dependency>
 <!--        dubbo-->
 
@@ -78,6 +79,11 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.2</version> <!-- 使用最新版本 -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
