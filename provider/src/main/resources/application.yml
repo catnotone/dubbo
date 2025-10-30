@@ -16,7 +16,7 @@ dubbo:
   scan:
     base-packages: org.huangge.provider.service
 server:
-  port: 20001
+  port: 20002
 
 # application.yml
 spring:
